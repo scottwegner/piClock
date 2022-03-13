@@ -1,0 +1,185 @@
+ .clock {
+  /*background: #ececec;*/
+  width: 300px;
+  height: 300px;
+  /*margin: 8% auto 0;*/
+  margin: 2px;
+  border-radius: 50%;
+  border: 4px solid #000;
+  position: relative;
+  zoom: 310%;
+  box-shadow: -1px 2px 6px 2px #111;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #000000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+  z-index: 10;
+  border: solid black 2px;
+  box-shadow: 0 2px 4px -1px black;
+}
+
+.hour-hand {
+  position: absolute;
+  z-index: 6;
+  width: 4px;
+  height: 65px;
+  background: #000000;
+  top: 78px;
+  transform-origin: 50% 72px;
+  left: 50%;
+  margin-left: -2px;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border: solid black 0px;
+  box-shadow: 0px 0px 1px 1px black;
+}
+
+.minute-hand {
+  position: absolute;
+  z-index: 5;
+  width: 4px;
+  height: 140px;
+  background: #000000;
+  top: 15px;
+  left: 50%;
+  margin-left: -2px;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  transform-origin: 50% 135px;
+  box-shadow: -1px 0px 1px 1px black;
+}
+
+.second-hand {
+  position: absolute;
+  z-index: 7;
+  width: 2px;
+  height: 140px;
+  background: red;
+  top: 15px;
+  lefT: 50%;
+  margin-left: -1px;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  transform-origin: 50% 135px;
+}
+
+span {
+  display: inline-block;
+  position: absolute;
+  color: #000000;
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: 700;
+  z-index: 4;
+}
+
+.h1 {
+  top: 40px;
+  right: 85px;
+}
+.h2 {
+  top: 78px;
+  right: 44px;
+}
+.h3 {
+  top: 138px;
+  right: 27px;
+}
+.h4 {
+  top: 195px;
+  right: 45px;
+}
+.h5 {
+  top: 235px;
+  right: 85px;
+}
+.h6 {
+  bottom: 24px;
+  left: 50%;
+  margin-left: -6px;
+}
+.h7 {
+  left: 85px;
+  top: 235px;
+}
+.h8 {
+  left: 45px;
+  top: 195px;
+}
+.h9 {
+  left: 27px;
+  top: 138px;
+}
+.h10 {
+  left: 44px;
+  top: 78px;
+}
+.h11 {
+  left: 85px;
+  top: 40px;
+}
+.h12 {
+  top: 26px;
+  left: 50%;
+  margin-left: -12px;
+}
+
+.diallines {
+  position: absolute;
+  z-index: 2;
+  width: 2px;
+  height: 15px;
+  background: #434343;
+  left: 50%;
+  margin-left: -1px;
+  transform-origin: 50% 150px;
+}
+.diallines:nth-of-type(5n) {
+  position: absolute;
+  z-index: 2;
+  width: 4px;
+  height: 26px;
+  background: #434343;
+  left: 50%;
+  margin-left: -2px;
+  transform-origin: 50% 150px;
+}
+
+.info {
+  position: absolute;
+  width: 120px;
+  height: 20px;
+  border-radius: 7px;
+  background: #ccc;
+  text-align: center;
+  line-height: 20px;
+  color: #000;
+  font-size: 11px;
+  top: 200px;
+  left: 50%;
+  margin-left: -60px;
+  font-family: sans-serif;
+  font-weight: 700;
+  z-index: 3;
+  letter-spacing: 3px;
+  margin-left: -60px;
+  left: 50%;
+}
+.date {
+    top: 80px;
+  }
+.day {
+    top: 200px;
+}
+.period {
+    top: 110px;
+}

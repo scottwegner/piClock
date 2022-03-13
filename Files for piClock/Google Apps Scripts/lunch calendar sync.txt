@@ -1,0 +1,146 @@
+function synclunch() {
+  //ID of google slide deck
+  var presentationId = '1OcDH0IIHzlgfcQtUN6GpeHcwTPSmc86vgKdQgFZz0H8';
+  var presentation = Slides.Presentations.get(presentationId);
+  var slides = presentation.slides;
+
+  //ID of lunch Calendar
+var mycal2 = "evps.k12.mn.us_u30ffojhjecn6khrdrmdmdhb30@group.calendar.google.com";
+var cal2 = CalendarApp.getCalendarById(mycal2);
+
+  //Get Lunch Menu for Date
+var timeZone2 = Session.getScriptTimeZone(); 
+var now2 = new Date();
+var midnightString2 = Utilities.formatDate(now2, timeZone2, 'MMMM dd, yyyy 22:00:00 Z');
+var midnight2 = new Date(midnightString2); 
+var events2 = cal2.getEvents(now2, midnight2);
+  //Make sure there is at least a space in the list - else there will be an error.
+var eventsList2 = ' ';
+  //loop to read in the events calendar event list  
+  for (i = 0; i < events2.length; i++) 
+  {
+    eventsList2 += ( null, i + 1, [events2[i].getTitle()]); 
+    eventsList2 += '\n';  //add a carrige return after each item. 
+  }   
+
+// this bit deletes the old text box so that a new one can be created
+  
+  var presentationC = Slides.Presentations.get(presentationId);
+  var slidesC = presentationC.slides;
+  for (i = 0; i < slidesC.length; i++) 
+  {
+        (null, i + 1, slidesC[i].pageElements.length);
+  }
+  if (slidesC[2].pageElements.length == '3.0') //if there is already 3 boxes there - delete the lunch-box element.
+ {
+
+// IN THE ABOVE - THE "slidesD[3]" number 3 represents the slide number you are 
+// referencing starting from zero.  So "3" actually means the 4th slide.
+
+  var elementId = 'lunch-box';
+
+// note - there are no good ways to get the "elementID" of the text box until you name
+// it... Very "catch-22-ish"
+
+
+  var requests = 
+       [
+         {
+      "deleteObject": {"objectId": elementId}
+         }
+       ]; 
+
+var createTextboxWithTextResponse = Slides.Presentations.batchUpdate({requests: requests}, presentationId);
+var createShapeResponse = createTextboxWithTextResponse.replies[0].createShape;
+  } 
+
+// NOTE!  in the above code - it is assumed that you have 2 "elements" on 
+// your slide - and that the 3rd one will be whatever data you are 
+// merging in.   So the first 2 could be some text and school masoct image. etc.
+
+
+
+// This section sets up the info we need to insert the new text box and data.
+  
+var pageId = 'g710b83b059_0_0';  //the pageId of the lunch menu page 
+
+//FIND THIS BY SEARCHING THE SOURCE HTML OF THE GOOGLE SLIDE FOR "pageId" - OR
+// by clicking on the slide and noting the url in google slides.
+
+var elementId = 'lunch-box';  //the elementId of the textbox
+var wid2 = {
+  magnitude: 580,
+  unit: 'PT'
+};
+  var hit2 = {
+  magnitude: 350,
+  unit: 'PT'
+};
+var requests2 = [{
+  createShape: {
+    objectId: elementId,
+    shapeType: 'TEXT_BOX',
+    elementProperties: {
+      pageObjectId: pageId,
+      size: {
+        height: hit2,
+        width: wid2
+      },
+      transform: {
+        scaleX: 1,
+        scaleY: 1,
+        translateX: 10,
+        translateY: 250,
+        unit: 'PT'
+      }
+    }
+  }
+},
+                 
+// Insert text into the box, using the supplied element ID.
+                 
+   {  
+  insertText: {
+    objectId: elementId,
+    insertionIndex: 0,
+    text: eventsList2
+  } 
+
+  }, 
+          
+  {
+    updateTextStyle: {
+      objectId: elementId,
+      textRange: {
+        type: 'ALL',
+      },
+      style: {
+         foregroundColor: {
+        opaqueColor: {
+          rgbColor: {
+            blue: 1.0,
+            green: 1.0,
+            red: 1.0
+          }
+        }
+      },
+        fontSize: {
+          magnitude: 40,
+          unit: 'PT'
+        },
+        bold: true,
+        italic: false,
+        underline: false,
+        fontFamily: 'Arial',
+      },
+      fields: 'foregroundColor,bold,italic,fontFamily,fontSize,underline'
+    }
+  }
+];
+
+// Execute the request.
+var createTextboxWithTextResponse = Slides.Presentations.batchUpdate({
+  requests: requests2
+}, presentationId);
+var createShapeResponse = createTextboxWithTextResponse.replies[0].createShape;
+}

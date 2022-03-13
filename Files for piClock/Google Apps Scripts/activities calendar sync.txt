@@ -1,0 +1,160 @@
+function logSlidesAndElements() {
+    //ID of google slide deck
+  var presentationId = '1OcDH0IIHzlgfcQtUN6GpeHcwTPSmc86vgKdQgFZz0H8';
+  var presentation = Slides.Presentations.get(presentationId);
+  var slides = presentation.slides;
+  
+    //ID of activities Calendar
+var mycal = "isd786.org_m2qa4ofuprt8o3c03v2firopfk@group.calendar.google.com";
+//var mycal = "goqqbker1rs960ufm9o58319n43g0irs@import.calendar.google.com"; tried to use an rss rschool calendar
+var cal = CalendarApp.getCalendarById(mycal);
+
+    //Get activities for Date
+var timeZone = Session.getScriptTimeZone(); 
+var now = new Date();
+var midnightString = Utilities.formatDate(now, timeZone, 'MMMM dd, yyyy 22:00:00 Z');
+var midnight = new Date(midnightString); 
+var events = cal.getEvents(now, midnight);
+  //Make sure there is at least a space in the list - else there will be an error.
+  Logger.log(events);
+  
+  if ( events.length == 0 )
+  { var eventsList = 'No Events Today';}
+      
+  else
+    
+  {var eventsList = ' ';}
+  
+  Logger.log(eventsList);
+  
+//var eventsList = ' ';  
+
+  //loop to read in the events calendar event list
+  
+  for (i = 0; i < events.length; i++) 
+  {
+    eventsList += ( null, i + 1, [events[i].getTitle()]); 
+    eventsList += '\n';  //add a carrige return after each item.
+  }
+
+// this bit deletes the old text box so that a new one can be created - otherwise error
+  
+  var presentationD = Slides.Presentations.get(presentationId);
+  var slidesD = presentationD.slides;
+  for (i = 0; i < slidesD.length; i++) 
+  {
+    (null, i + 1, slidesD[i].pageElements.length);
+  }
+  if (slidesD[3].pageElements.length == '3.0') //if there is already 3 boxes there - delete the MyTextBox element.
+{
+
+// IN THE ABOVE - THE "slidesD[3]" number 3 represents the slide number you are 
+// referencing starting from zero.  So "3" actually means the 4th slide.
+
+var elementId = 'MyTextBox_01';
+
+// note - there are no good ways to get the "elementID" of the text box until you name
+// it... Very "catch-22-ish"
+
+var requests = [
+    {
+      "deleteObject": {
+        "objectId": elementId
+      }
+    }
+ ]; 
+
+// NOTE!  in the above code - it is assumed that you have 2 "elements" on 
+// your slide - and that the 3rd one will be whatever data you are 
+// merging in.   So the first 2 could be some text and school masoct image. etc. 
+
+var createTextboxWithTextResponse = Slides.Presentations.batchUpdate({requests: requests}, presentationId);
+var createShapeResponse = createTextboxWithTextResponse.replies[0].createShape;
+} 
+
+// This section sets up the info we need to insert the new text box and data.
+  
+var pageId = 'g710b83b059_6_6';
+
+//FIND THIS BY SEARCHING THE SOURCE HTML OF THE GOOGLE SLIDE FOR "pageId" - OR
+// by clicking on the slide and noting the url in google slides.
+
+var elementId = 'MyTextBox_01';
+var wid = {
+  magnitude: 580,
+  unit: 'PT'
+};
+  var hit = {
+  magnitude: 350,
+  unit: 'PT'
+};
+var requests = [{
+  createShape: {
+    objectId: elementId,
+    shapeType: 'TEXT_BOX',
+    elementProperties: {
+      pageObjectId: pageId,
+      size: {
+        height: hit,
+        width: wid
+      },
+      transform: {
+        scaleX: 1,
+        scaleY: 1,
+        translateX: 10,
+        translateY: 250,
+        unit: 'PT'
+      }
+    }
+  }
+},
+                
+ // Describes the Insert text into the box action, using the supplied element ID.
+{
+  
+  insertText: {
+    objectId: elementId,
+    insertionIndex: 0,
+    text: eventsList
+  
+  } 
+
+  }, 
+                
+                
+  {
+    updateTextStyle: {
+      objectId: elementId,
+      textRange: {
+        type: 'ALL',
+      },
+      style: {
+         foregroundColor: {
+        opaqueColor: {
+          rgbColor: {
+            blue: 1.0,
+            green: 1.0,
+            red: 1.0
+          }
+        }
+      },
+        fontSize: {
+          magnitude: 30,
+          unit: 'PT'
+        },
+        bold: true,
+        italic: false,
+        underline: false,
+        fontFamily: 'Arial',
+      },
+      fields: 'foregroundColor,bold,italic,fontFamily,fontSize,underline'
+    }
+  }
+];
+
+// Execute the request.
+var createTextboxWithTextResponse = Slides.Presentations.batchUpdate({
+  requests: requests
+}, presentationId);
+var createShapeResponse = createTextboxWithTextResponse.replies[0].createShape;
+}
